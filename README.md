@@ -1,4 +1,4 @@
-Testing [Nest](https://github.com/nestjs/nest) and [GraphQL] (https://graphql.org/) with [MongoDB] (https://www.mongodb.com/)
+Testing [Nest](https://github.com/nestjs/nest) and [GraphQL](https://graphql.org/) with [MongoDB](https://www.mongodb.com/)
 
 
 ## Installation
