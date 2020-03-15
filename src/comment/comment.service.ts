@@ -17,7 +17,7 @@ export class CommentService {
   }
 
   async createComment(commentInput: CreateCommentInput): Promise<IComment> {
-    // todo emailTaken
+    // todo createComment
 
     const createdComments = new this.CommentModel(CreateCommentInput);
     return createdComments.save();

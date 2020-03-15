@@ -17,6 +17,8 @@ export class PostService {
   }
 
   async createPost(userInput: CreatePostInput): Promise<IPost> {
+    // todo createPost
+
     const createdPosts = new this.PostModel(CreatePostInput);
     return createdPosts.save();
   }

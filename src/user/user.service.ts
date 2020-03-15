@@ -17,7 +17,7 @@ export class UserService {
   }
 
   async createUser(userInput: CreateUserInput): Promise<IUser> {
-    // todo emailTaken
+    // todo createUser
 
     const createdUsers = new this.UserModel(CreateUserInput);
     return createdUsers.save();
