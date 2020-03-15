@@ -10,32 +10,24 @@ export class UserService {
     @InjectModel('Users') private UserModel: Model<IUser>
   ) {}
   
-  async users(): Promise<IUser[]> {
+  async users(query?: string): Promise<IUser[]> {
+    console.log('query', query);
+    // todo query users
     return this.UserModel.find().exec();
   }
 
   async createUser(userInput: CreateUserInput): Promise<IUser> {
-
-    // const emailTaken = db.users.some((user) => user.email === args.data.email)
-
-    // if (emailTaken) {
-    //     throw new Error('Email taken')
-    // }
-
-    // const user = {
-    //     id: uuidv4(),
-    //     ...args.data
-    // }
-
-    // db.users.push(user)
-
-    // return user
-
-
-
-
+    // todo emailTaken
 
     const createdUsers = new this.UserModel(CreateUserInput);
     return createdUsers.save();
+  }
+
+  async deleteUser(id: number) {
+    // todo deleteUser
+  }
+
+  async updateUser(id: number) {
+    // todo updateUser
   }
 }
