@@ -4,13 +4,13 @@ green=`tput setaf 2`
 yellow=`tput setaf 3`
 reset=`tput sgr0`
 
-read -p "${green}Rename from? ${reset}" from
+read -p "${green}Rename files from? ${reset}" from
 from=${from:-account}
 echo "${yellow} $from ${reset}"
 
 echo ""
 
-read -p "${green}Rename to? ${reset}" to
+read -p "${green}Rename files to? ${reset}" to
 to=${to:-account}
 echo "${yellow} $to ${reset}"
 
