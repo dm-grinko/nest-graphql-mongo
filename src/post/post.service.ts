@@ -10,12 +10,22 @@ export class PostService {
     @InjectModel('Posts') private PostModel: Model<IPost>
   ) {}
   
-  async posts(): Promise<IPost[]> {
+  async posts(query?: string): Promise<IPost[]> {
+    console.log('query', query);
+    // todo query users
     return this.PostModel.find().exec();
   }
 
-  async createPost(postInput: CreatePostInput): Promise<IPost> {
-    const createdPosts = new this.PostModel(postInput);
+  async createPost(userInput: CreatePostInput): Promise<IPost> {
+    const createdPosts = new this.PostModel(CreatePostInput);
     return createdPosts.save();
+  }
+
+  async deletePost(id: number) {
+    // todo deletePost
+  }
+
+  async updatePost(id: number, newData: any) {
+    // todo updatePost
   }
 }

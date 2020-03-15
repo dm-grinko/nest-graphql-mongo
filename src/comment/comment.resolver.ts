@@ -1,7 +1,7 @@
-import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
 import { CommentService } from "./comment.service";
 import { Comment } from "./dto/comment.dto";
-import { CreateCommentInput } from "./inputs/comment.input";
+import { CreateCommentInput, UpdateCommentInput } from "./inputs/comment.input";
 
 @Resolver()
 export class CommentResolver {
@@ -9,13 +9,26 @@ export class CommentResolver {
     private commentService: CommentService
   ) {}
 
-  @Query(() => [Comment])
-  async comments() {
-    return this.commentService.comments();
+  @Query(returns => [Comment])
+  async comments(@Args('query') query: string) {
+    return this.commentService.comments(query);
   }
 
-  @Mutation(() => Comment)
+  @Mutation(returns => Comment)
   async createComment(@Args('input') input: CreateCommentInput) {
     return this.commentService.createComment(input);
+  }
+
+  @Mutation(returns => Comment)
+  async deleteComment(@Args({ name: 'id', type: () => Int }) id: number) {
+    return this.commentService.deleteComment(id);
+  }
+
+  @Mutation(returns => Comment)
+  async updateComment(
+    @Args({ name: 'id', type: () => Int }) id: number,
+    @Args('data') newData: UpdateCommentInput
+  ) {
+    return this.commentService.updateComment(id, newData);
   }
 }

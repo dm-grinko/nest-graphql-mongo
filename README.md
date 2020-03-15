@@ -4,6 +4,6 @@
  - inputs :white_check_mark:
  - pto :white_check_mark:
  - schema :white_check_mark:
- - res :x:
- - serv :x:
+ - resolvers :white_check_mark:
+ - services :x:
  - subscriptions :x:

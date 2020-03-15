@@ -9,13 +9,25 @@ export class CommentService {
   constructor(
     @InjectModel('Comments') private CommentModel: Model<IComment>
   ) {}
-  
-  async comments(): Promise<IComment[]> {
+
+  async comments(query?: string): Promise<IComment[]> {
+    console.log('query', query);
+    // todo query comments
     return this.CommentModel.find().exec();
   }
 
   async createComment(commentInput: CreateCommentInput): Promise<IComment> {
-    const createdComments = new this.CommentModel(commentInput);
+    // todo emailTaken
+
+    const createdComments = new this.CommentModel(CreateCommentInput);
     return createdComments.save();
+  }
+
+  async deleteComment(id: number) {
+    // todo deleteComment
+  }
+
+  async updateComment(id: number, newData: any) {
+    // todo updateComment
   }
 }
