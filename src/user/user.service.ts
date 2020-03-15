@@ -27,7 +27,7 @@ export class UserService {
     // todo deleteUser
   }
 
-  async updateUser(id: number) {
+  async updateUser(id: number, newData: any) {
     // todo updateUser
   }
 }
