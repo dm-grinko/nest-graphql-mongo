@@ -1,13 +1,10 @@
 import * as mongoose from 'mongoose';
-import { PostSchema } from 'src/post/post.schema';
-import { CommentSchema } from 'src/comment/comment.schema';
 
 export const UserSchema = new mongoose.Schema({
-  id: String,
-  name: String,
-  email: String,
-  age: Number,
-  posts: [PostSchema],
-  comments: [CommentSchema],
+  name: {type: String, required: true},
+  email: {type: String, required: true},
+  age: {type: Number, default: null},
+  posts: {type: [mongoose.Types.ObjectId], required: false},
+  comments: {type: [mongoose.Types.ObjectId], required: false}
 });
 

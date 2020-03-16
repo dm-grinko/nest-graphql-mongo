@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, Int, ID } from "@nestjs/graphql";
 import { PostService } from "./post.service";
 import { Post } from "./dto/post.dto";
 import { CreatePostInput, UpdatePostInput } from "./inputs/post.input";
@@ -9,25 +9,29 @@ export class PostResolver {
     private postService: PostService
   ) {}
 
-  @Query(returns => [Post])
-  async posts(@Args('query') query: string) {
+  @Query(returns => [Post], { nullable: 'items' })
+  async posts(@Args({
+    name: 'query',
+    type: () => String,
+    nullable: true
+  }) query: string) {
     return this.postService.posts(query);
   }
 
   @Mutation(returns => Post)
-  async createPost(@Args('input') input: CreatePostInput) {
-    return this.postService.createPost(input);
+  async createPost(@Args('data') data: CreatePostInput) {
+    return this.postService.createPost(data);
   }
 
   @Mutation(returns => Post)
-  async deletePost(@Args({ name: 'id', type: () => Int }) id: number) {
+  async deletePost(@Args({ name: 'id', type: () => ID }) id: number) {
     return this.postService.deletePost(id);
   }
 
   @Mutation(returns => Post)
   async updatePost(
-    @Args({ name: 'id', type: () => Int }) id: number,
-    @Args('data') newData: UpdatePostInput
+    @Args('data') newData: UpdatePostInput,
+    @Args({ name: 'id', type: () => ID }) id: number
   ) {
     return this.postService.updatePost(id, newData);
   }

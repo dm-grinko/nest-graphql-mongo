@@ -1,10 +1,10 @@
-import { ObjectType, Field, Int  } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID, Float  } from '@nestjs/graphql';
 import { Post } from 'src/post/dto/post.dto';
 import { Comment } from 'src/comment/dto/comment.dto';
 
 @ObjectType()
 export class User {
-  @Field(type => Int)
+  @Field(type => ID)
   id: string;
 
   @Field()
@@ -14,7 +14,7 @@ export class User {
   email: string;
 
   @Field(type => Int, { nullable: true })
-  age?: number;
+  age: number;
 
   @Field(type => [Post], { nullable: 'items' })
   posts: Post[];

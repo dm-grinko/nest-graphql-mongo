@@ -1,10 +1,10 @@
-import { ObjectType, Field, Int  } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID  } from '@nestjs/graphql';
 import { User } from 'src/user/dto/user.dto';
 import { Comment } from 'src/comment/dto/comment.dto';
 
 @ObjectType()
 export class Post {
-  @Field(type => Int)
+  @Field(type => ID)
   id: string;
 
   @Field()

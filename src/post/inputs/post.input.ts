@@ -17,12 +17,12 @@ export class CreatePostInput {
 
 @InputType()
 export class UpdatePostInput {
-  @Field()
+  @Field(type => String, { nullable: true })
   title: string;
 
-  @Field()
-  body: number;
+  @Field(type => String, { nullable: true })
+  body: string;
 
-  @Field()
+  @Field(type => Boolean, { nullable: true })
   published: boolean;
 }

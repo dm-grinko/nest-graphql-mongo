@@ -14,6 +14,6 @@ export class CreateCommentInput {
 
 @InputType()
 export class UpdateCommentInput {
-  @Field()
+  @Field(type => String, { nullable: true })
   text: string;
 }

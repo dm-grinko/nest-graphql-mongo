@@ -16,10 +16,10 @@ export class UserService {
     return this.UserModel.find().exec();
   }
 
-  async createUser(userInput: CreateUserInput): Promise<IUser> {
+  async createUser(data: CreateUserInput): Promise<IUser> {
     // todo createUser
 
-    const createdUsers = new this.UserModel(CreateUserInput);
+    const createdUsers = new this.UserModel(data);
     return createdUsers.save();
   }
 
