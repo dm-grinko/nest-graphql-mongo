@@ -7,4 +7,3 @@ export const UserSchema = new mongoose.Schema({
   posts: {type: [mongoose.Types.ObjectId], required: false},
   comments: {type: [mongoose.Types.ObjectId], required: false}
 });
-

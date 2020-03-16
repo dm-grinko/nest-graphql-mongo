@@ -7,4 +7,3 @@ export const PostSchema = new mongoose.Schema({
   author: {type: mongoose.Types.ObjectId, required: true},
   comments: {type: [mongoose.Types.ObjectId], required: false}
 });
-
