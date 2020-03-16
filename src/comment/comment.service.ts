@@ -16,10 +16,10 @@ export class CommentService {
     return this.CommentModel.find().exec();
   }
 
-  async createComment(commentInput: CreateCommentInput): Promise<IComment> {
+  async createComment(data: CreateCommentInput): Promise<IComment> {
     // todo createComment
 
-    const createdComments = new this.CommentModel(CreateCommentInput);
+    const createdComments = new this.CommentModel(data);
     return createdComments.save();
   }
 

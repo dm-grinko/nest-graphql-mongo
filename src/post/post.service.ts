@@ -16,10 +16,10 @@ export class PostService {
     return this.PostModel.find().exec();
   }
 
-  async createPost(userInput: CreatePostInput): Promise<IPost> {
+  async createPost(data: CreatePostInput): Promise<IPost> {
     // todo createPost
 
-    const createdPosts = new this.PostModel(CreatePostInput);
+    const createdPosts = new this.PostModel(data);
     return createdPosts.save();
   }
 

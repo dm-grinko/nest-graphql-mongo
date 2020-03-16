@@ -1,9 +1,19 @@
 ### todo:
- - module :white_check_mark:
- - interfaces :white_check_mark:
- - inputs :white_check_mark:
- - pto :white_check_mark:
- - schema :white_check_mark:
- - resolvers :white_check_mark:
- - services :x:
- - subscriptions :x:
+ - get all users :white_check_mark:
+ - get all posts :white_check_mark:
+ - get all comments :white_check_mark:
+ - search userById :white_check_mark:
+ - search postById :x:
+ - search commentById :x:
+ - search user :x:
+ - search post :x:
+ - search comment :x:
+ - createUser :white_check_mark:
+ - createPost :white_check_mark:
+ - createComment :white_check_mark:
+ - updateUser :x:
+ - updatePost :x:
+ - updateComment :x:
+ - deleteUser :x:
+ - deletePost :x:
+ - deleteComment :x:

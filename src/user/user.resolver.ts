@@ -9,6 +9,14 @@ export class UserResolver {
     private userService: UserService
   ) {}
 
+  @Query(returns => User, { nullable: true })
+  async user(@Args({
+    name: 'id',
+    type: () => ID
+  }) id: string) {
+    return this.userService.user(id);
+  }
+
   @Query(returns => [User], { nullable: 'items' })
   async users(@Args({
     name: 'query',
