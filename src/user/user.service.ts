@@ -1,30 +1,41 @@
 import { Model } from 'mongoose';
-import * as mongoose from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IUser } from './interfaces/user.interface';
-import { CreateUserInput } from './inputs/user.input';
-
+import { IUser, CreateUserInput } from './user.model';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('Users') private UserModel: Model<IUser>) {}
+  constructor(@InjectModel('Users') private readonly UserModel: Model<IUser>) {}
 
   async users(query?: string): Promise<IUser[]> {
-    console.log('query', query);
-    // todo query users
-    return this.UserModel.find().exec();
+    const users = await this.UserModel.find().exec();
+    return users.map((user: any) => ({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        posts: user.posts,
+        comments: user.comments
+    })) as IUser[];
   }
 
-  async user(id: string): Promise<IUser[]> {
-    return this.UserModel.findById(id).exec();
+  async user(id: string): Promise<IUser> {
+    const user = await this.UserModel.findById(id).exec();
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      age: user.age,
+      posts: user.posts,
+      comments: user.comments
+    } as IUser; 
   }
 
   async createUser(data: CreateUserInput): Promise<IUser> {
     // todo createUser
 
     const createdUsers = new this.UserModel(data);
-    return createdUsers.save();
+    return await createdUsers.save();
   }
 
   async deleteUser(id: number) {

@@ -1,26 +1,33 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IComment } from './interfaces/comment.interface';
-import { CreateCommentInput } from './inputs/comment.input';
+import { IComment, CreateCommentInput } from './comment.model';
 
 @Injectable()
 export class CommentService {
   constructor(
-    @InjectModel('Comments') private CommentModel: Model<IComment>
+    @InjectModel('Comments') private readonly CommentModel: Model<IComment>,
   ) {}
 
   async comments(query?: string): Promise<IComment[]> {
-    console.log('query', query);
-    // todo query comments
-    return this.CommentModel.find().exec();
+    const comments = await this.CommentModel.find().exec();
+    return comments.map((comment: any) => ({
+      id: comment._id,
+      text: comment.text,
+      author: comment.author,
+      post: comment.post,
+    })) as IComment[];
   }
 
   async createComment(data: CreateCommentInput): Promise<IComment> {
-    // todo createComment
-
-    const createdComments = new this.CommentModel(data);
-    return createdComments.save();
+    const createdComments = await new this.CommentModel(data);
+    const comment =  await createdComments.save();
+    return {
+      id: comment._id,
+      text: comment.text,
+      author: comment.author,
+      post: comment.post,
+    } as IComment;
   }
 
   async deleteComment(id: number) {

@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, ID } from "@nestjs/graphql";
 import { UserService } from "./user.service";
-import { User } from "./dto/user.dto";
-import { CreateUserInput, UpdateUserInput } from "./inputs/user.input";
+import { UserObject, CreateUserInput, UpdateUserInput } from "./user.model";
 
 @Resolver('Users')
 export class UserResolver {
@@ -9,7 +8,7 @@ export class UserResolver {
     private userService: UserService
   ) {}
 
-  @Query(returns => User, { nullable: true })
+  @Query(returns => UserObject, { nullable: true })
   async user(@Args({
     name: 'id',
     type: () => ID
@@ -17,7 +16,7 @@ export class UserResolver {
     return this.userService.user(id);
   }
 
-  @Query(returns => [User], { nullable: 'items' })
+  @Query(returns => [UserObject], { nullable: 'items' })
   async users(@Args({
     name: 'query',
     type: () => String,
@@ -26,17 +25,17 @@ export class UserResolver {
     return this.userService.users(query);
   }
 
-  @Mutation(returns => User)
+  @Mutation(returns => UserObject)
   async createUser(@Args('data') data: CreateUserInput) {
     return this.userService.createUser(data);
   }
 
-  @Mutation(returns => User)
+  @Mutation(returns => UserObject)
   async deleteUser(@Args({ name: 'id', type: () => ID }) id: number) {
     return this.userService.deleteUser(id);
   }
 
-  @Mutation(returns => User)
+  @Mutation(returns => UserObject)
   async updateUser(
     @Args('data') newData: UpdateUserInput,
     @Args({ name: 'id', type: () => ID }) id: number,

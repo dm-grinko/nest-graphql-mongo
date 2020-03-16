@@ -2,11 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Comment {
+type CommentObject {
   id: ID!
   text: String!
-  author: User!
-  post: Post!
+  author: UserObject!
+  post: PostObject!
 }
 
 input CreateCommentInput {
@@ -29,31 +29,31 @@ input CreateUserInput {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
-  deleteUser(id: ID!): User!
-  updateUser(id: ID!, data: UpdateUserInput!): User!
-  createPost(data: CreatePostInput!): Post!
-  deletePost(id: ID!): Post!
-  updatePost(id: ID!, data: UpdatePostInput!): Post!
-  createComment(data: CreateCommentInput!): Comment!
-  deleteComment(id: ID!): Comment!
-  updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+  createUser(data: CreateUserInput!): UserObject!
+  deleteUser(id: ID!): UserObject!
+  updateUser(id: ID!, data: UpdateUserInput!): UserObject!
+  createPost(data: CreatePostInput!): PostObject!
+  deletePost(id: ID!): PostObject!
+  updatePost(id: ID!, data: UpdatePostInput!): PostObject!
+  createComment(data: CreateCommentInput!): CommentObject!
+  deleteComment(id: ID!): CommentObject!
+  updateComment(id: ID!, data: UpdateCommentInput!): CommentObject!
 }
 
-type Post {
+type PostObject {
   id: ID!
   title: String!
   body: String!
   published: Boolean!
-  author: User!
-  comments: [Comment]!
+  author: UserObject!
+  comments: [CommentObject]!
 }
 
 type Query {
-  user(id: ID!): User
-  users(query: String): [User]!
-  posts(query: String): [Post]!
-  comments(query: String): [Comment]!
+  user(id: ID!): UserObject
+  users(query: String): [UserObject]!
+  posts(query: String): [PostObject]!
+  comments(query: String): [CommentObject]!
 }
 
 input UpdateCommentInput {
@@ -72,11 +72,11 @@ input UpdateUserInput {
   age: Int
 }
 
-type User {
+type UserObject {
   id: ID!
   name: String!
   email: String!
   age: Int
-  posts: [Post]!
-  comments: [Comment]!
+  posts: [PostObject]!
+  comments: [CommentObject]!
 }

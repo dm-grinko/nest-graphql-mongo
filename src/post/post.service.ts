@@ -1,26 +1,36 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IPost } from './interfaces/post.interface';
-import { CreatePostInput } from './inputs/post.input';
+import { IPost, CreatePostInput } from './post.model';
 
 @Injectable()
 export class PostService {
   constructor(
-    @InjectModel('Posts') private PostModel: Model<IPost>
+    @InjectModel('Posts') private readonly PostModel: Model<IPost>
   ) {}
   
   async posts(query?: string): Promise<IPost[]> {
-    console.log('query', query);
-    // todo query users
-    return this.PostModel.find().exec();
+    const posts = await this.PostModel.find().exec();
+    return posts.map((post: any) => ({
+      id: post._id,
+      title: post.title,
+      body: post.body,
+      published: post.published,
+      author: post.author,
+    })) as IPost[];
   }
 
   async createPost(data: CreatePostInput): Promise<IPost> {
-    // todo createPost
-
     const createdPosts = new this.PostModel(data);
-    return createdPosts.save();
+    const post = await createdPosts.save();
+    console.log('post', post);
+    return {
+      id: post._id,
+      title: post.title,
+      body: post.body,
+      published: post.published,
+      author: post.author,
+    } as IPost;
   }
 
   async deletePost(id: number) {
