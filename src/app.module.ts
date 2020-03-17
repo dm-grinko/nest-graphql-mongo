@@ -6,13 +6,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
+import config from './environments/environment';
 
 @Module({
   imports: [
     UserModule,
     PostModule,
     CommentModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/mugclubs', {
+    MongooseModule.forRoot(config.mongoURI, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true

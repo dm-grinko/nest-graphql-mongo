@@ -14,11 +14,9 @@ export class CommentResolver {
 
 
   @Query(returns => Comment, { nullable: true })
-  async getComment(@Args({
-    name: '_id',
-    type: () => ID
-  }) _id: string) {
-    return this.commentService.getComment(_id);
+  async getComment(
+    @Args({name: '_id', type: () => ID}) id: string) {
+    return this.commentService.getComment(id);
   }
 
   @Query(returns => [Comment], { nullable: 'items' })
@@ -36,16 +34,16 @@ export class CommentResolver {
   }
 
   @Mutation(returns => Comment)
-  async deleteComment(@Args({ name: '_id', type: () => ID }) _id: number) {
-    return this.commentService.deleteComment(_id);
+  async deleteComment(@Args({ name: '_id', type: () => ID }) id: number) {
+    return this.commentService.deleteComment(id);
   }
 
   @Mutation(returns => Comment)
   async updateComment(
     @Args('data') data: UpdateCommentInput,
-    @Args({ name: '_id', type: () => ID }) _id: number,
+    @Args({ name: '_id', type: () => ID }) id: number,
   ) {
-    return this.commentService.updateComment(_id, data);
+    return this.commentService.updateComment(id, data);
   }
 
   @ResolveField()

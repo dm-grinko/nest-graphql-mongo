@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CommentInterface, CreateCommentInput } from './comment.model';
+import { CommentInterface, CreateCommentInput, UpdateCommentInput } from './comment.model';
 import { UserInterface } from 'src/user/user.model';
 import { PostInterface } from 'src/post/post.model';
 
@@ -15,18 +15,27 @@ export class CommentService {
 
   async getComments(query?: string): Promise<CommentInterface[]> {
     try {
-      return await this.commentModel.find()
-      .populate({path: 'user', model: this.userModel})
-      .populate({path: 'posts', model: this.postModel})
-      .exec();
+      
+      if (!query) {
+        return await this.commentModel.find()
+          .populate({path: 'user', model: this.userModel})
+          .populate({path: 'posts', model: this.postModel})
+          .exec();
+      } else {
+        const queryObject = {text: new RegExp('^' + query + '$', "i")}
+        return await this.commentModel.find(queryObject)
+          .populate({path: 'user', model: this.userModel})
+          .populate({path: 'posts', model: this.postModel})
+          .exec();
+      }
     } catch (e) {
       console.error(e);
     }
   }
 
-  async getComment(_id: string): Promise<CommentInterface> {
+  async getComment(id: string): Promise<CommentInterface> {
     try {
-      return await this.commentModel.findById(_id)
+      return await this.commentModel.findById(id)
         .populate({path: 'user', model: this.userModel})
         .populate({path: 'post', model: this.postModel})
         .exec();
@@ -36,15 +45,27 @@ export class CommentService {
   }
 
   async createComment(data: CreateCommentInput): Promise<CommentInterface> {
-    const createdComments = await new this.commentModel(data);
-    return await createdComments.save();
+    try {
+      const createdComments = await new this.commentModel(data);
+      return await createdComments.save();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async deleteComment(_id: number) {
-    // todo deleteComment
+  async deleteComment(id: number) {
+    try {
+      return await this.commentModel.findByIdAndDelete(id);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async updateComment(_id: number, newData: any) {
-    // todo updateComment
+  async updateComment(id: number, data: UpdateCommentInput) {
+    try {
+      return await this.userModel.findByIdAndUpdate(id, data, {new: true});
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

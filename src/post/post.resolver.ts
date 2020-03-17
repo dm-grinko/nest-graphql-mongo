@@ -14,19 +14,13 @@ export class PostResolver {
   ) {}
 
   @Query(returns => Post, { nullable: true })
-  async getPost(@Args({
-    name: '_id',
-    type: () => ID
-  }) _id: string) {
+  async getPost(@Args({ name: '_id', type: () => ID}) _id: string) {
     return this.postService.getPost(_id);
   }
 
   @Query(returns => [Post], { nullable: 'items' })
-  async getPosts(@Args({
-    name: 'query',
-    type: () => String,
-    nullable: true
-  }) query: string) {
+  async getPosts(
+    @Args({name: 'query', type: () => String, nullable: true}) query?: string) {
     return this.postService.getPosts(query);
   }
 
@@ -36,16 +30,16 @@ export class PostResolver {
   }
 
   @Mutation(returns => Post)
-  async deletePost(@Args({ name: '_id', type: () => ID }) _id: number) {
-    return this.postService.deletePost(_id);
+  async deletePost(@Args({ name: '_id', type: () => ID }) id: number) {
+    return this.postService.deletePost(id);
   }
 
   @Mutation(returns => Post)
   async updatePost(
-    @Args('data') newData: UpdatePostInput,
-    @Args({ name: '_id', type: () => ID }) _id: number
+    @Args('data') data: UpdatePostInput,
+    @Args({ name: '_id', type: () => ID }) id: number
   ) {
-    return this.postService.updatePost(_id, newData);
+    return this.postService.updatePost(id, data);
   }
 
   @ResolveField()

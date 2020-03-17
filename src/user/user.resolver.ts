@@ -13,19 +13,13 @@ export class UserResolver {
   ) {}
 
   @Query(returns => User, { nullable: true })
-  async getUser(@Args({
-    name: '_id',
-    type: () => ID
-  }) _id: string) {
+  async getUser(@Args({name: '_id', type: () => ID}) _id: string) {
     return this.userService.getUser(_id);
   }
 
   @Query(returns => [User], { nullable: 'items' })
-  async getUsers(@Args({
-    name: 'query',
-    type: () => String,
-    nullable: true
-  }) query?: string) {
+  async getUsers(
+    @Args({name: 'query', type: () => String, nullable: true}) query?: string) {
     return this.userService.getUsers(query);
   }
 
@@ -41,10 +35,10 @@ export class UserResolver {
 
   @Mutation(returns => User)
   async updateUser(
-    @Args('data') newData: UpdateUserInput,
+    @Args('data') data: UpdateUserInput,
     @Args({ name: '_id', type: () => ID }) _id: number,
   ) {
-    return this.userService.updateUser(_id, newData);
+    return this.userService.updateUser(_id, data);
   }
 
   @ResolveField()

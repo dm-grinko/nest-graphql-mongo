@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { PostInterface, CreatePostInput } from './post.model';
+import { PostInterface, CreatePostInput, UpdatePostInput } from './post.model';
 import { UserInterface } from 'src/user/user.model';
 import { CommentInterface } from 'src/comment/comment.model';
 
@@ -24,9 +24,9 @@ export class PostService {
     }
   }
 
-  async getPost(_id: string): Promise<PostInterface> {
+  async getPost(id: string): Promise<PostInterface> {
     try {
-      return await this.postModel.findById(_id)
+      return await this.postModel.findById(id)
         .populate({ path: 'user', model: this.userModel })
         .populate({ path: 'comments', model: this.commentModel })
         .exec();
@@ -36,15 +36,27 @@ export class PostService {
   }
 
   async createPost(data: CreatePostInput): Promise<PostInterface> {
-    const createdPost = new this.postModel(data);
-    return await createdPost.save();
+    try {
+      const createdPost = new this.postModel(data);
+      return await createdPost.save();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async deletePost(_id: number) {
-    // todo deletePost
+  async deletePost(id: number) {
+    try {
+      return await this.postModel.findByIdAndDelete(id);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async updatePost(_id: number, newData: any) {
-    // todo updatePost
+  async updatePost(id: number, data: UpdatePostInput) {
+    try {
+      return await this.userModel.findByIdAndUpdate(id, data, {new: true});
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
