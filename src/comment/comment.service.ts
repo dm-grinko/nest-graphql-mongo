@@ -14,10 +14,14 @@ export class CommentService {
   ) {}
 
   async getComments(query?: string): Promise<CommentInterface[]> {
-    return await this.commentModel.find()
+    try {
+      return await this.commentModel.find()
       .populate({path: 'user', model: this.userModel})
       .populate({path: 'posts', model: this.postModel})
       .exec();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async getComment(_id: string): Promise<CommentInterface> {

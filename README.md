@@ -1,16 +1,16 @@
 ### todo:
- - get all users :white_check_mark:
- - get all posts :white_check_mark:
- - get all comments :white_check_mark:
- - search userById :white_check_mark:
- - search postById :x:
- - search commentById :x:
- - search user :x:
- - search post :x:
- - search comment :x:
  - createUser :white_check_mark:
  - createPost :white_check_mark:
  - createComment :white_check_mark:
+ - get all users :white_check_mark:
+ - get all posts :white_check_mark:
+ - get all comments :white_check_mark:
+ - get user by id :white_check_mark:
+ - get post by id :x:
+ - get comment by id :x:
+ - search user :x:
+ - search post :x:
+ - search comment :x:
  - updateUser :x:
  - updatePost :x:
  - updateComment :x:

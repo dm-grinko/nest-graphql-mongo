@@ -14,10 +14,14 @@ export class UserService {
   ) {}
 
   async getUsers(query?: string): Promise<UserInterface[]> {
-    return await this.userModel.find()
-      .populate({path: 'posts', model: this.postModel})
-      .populate({path: 'comments', model: this.commentModel})
-      .exec();
+    try {
+      return await this.userModel.find()
+        .populate({path: 'posts', model: this.postModel})
+        .populate({path: 'comments', model: this.commentModel})
+        .exec();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async getUser(id: string): Promise<UserInterface> {
