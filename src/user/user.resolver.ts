@@ -1,10 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent } from "@nestjs/graphql";
 import { UserService } from "./user.service";
-import { UserObject, CreateUserInput, UpdateUserInput } from "./user.model";
+import { User, CreateUserInput, UpdateUserInput } from "./user.model";
 import { CommentService } from "src/comment/comment.service";
 import { PostService } from "src/post/post.service";
 
-@Resolver(of => UserObject)
+@Resolver(of => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
@@ -12,7 +12,7 @@ export class UserResolver {
     private postService: PostService,
   ) {}
 
-  @Query(returns => UserObject, { nullable: true })
+  @Query(returns => User, { nullable: true })
   async getUser(@Args({
     name: '_id',
     type: () => ID
@@ -20,7 +20,7 @@ export class UserResolver {
     return this.userService.getUser(_id);
   }
 
-  @Query(returns => [UserObject], { nullable: 'items' })
+  @Query(returns => [User], { nullable: 'items' })
   async getUsers(@Args({
     name: 'query',
     type: () => String,
@@ -29,17 +29,17 @@ export class UserResolver {
     return this.userService.getUsers(query);
   }
 
-  @Mutation(returns => UserObject)
+  @Mutation(returns => User)
   async createUser(@Args('data') data: CreateUserInput) {
     return this.userService.createUser(data);
   }
 
-  @Mutation(returns => UserObject)
+  @Mutation(returns => User)
   async deleteUser(@Args({ name: '_id', type: () => ID }) _id: number) {
     return this.userService.deleteUser(_id);
   }
 
-  @Mutation(returns => UserObject)
+  @Mutation(returns => User)
   async updateUser(
     @Args('data') newData: UpdateUserInput,
     @Args({ name: '_id', type: () => ID }) _id: number,
@@ -48,15 +48,13 @@ export class UserResolver {
   }
 
   @ResolveField()
-  async posts(@Parent() user: UserObject) {
-    console.log('user 1', user);
+  async posts(@Parent() user: User) {
     const { _id } = user;
     return this.postService.getPosts(_id);
   }
 
   @ResolveField()
-  async comments(@Parent() user: UserObject) {
-    console.log('user 2', user);
+  async comments(@Parent() user: User) {
     const { _id } = user;
     return this.commentService.getComments(_id);
   }

@@ -26,17 +26,10 @@ export class PostService {
 
   async getPost(_id: string): Promise<PostInterface> {
     try {
-      const post = await this.postModel.findById(_id)
+      return await this.postModel.findById(_id)
         .populate({ path: 'user', model: this.userModel })
         .populate({ path: 'comments', model: this.commentModel })
         .exec();
-      return {
-        _id: post._id,
-        title: post.title,
-        body: post.body,
-        published: post.published,
-        user: post.user,
-      } as PostInterface;
     } catch (e) {
       console.error(e);
     }

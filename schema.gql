@@ -2,11 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type CommentObject {
+type Comment {
   _id: ID!
   text: String!
-  user: UserObject!
-  post: PostObject!
+  user: User!
+  post: Post!
 }
 
 input CreateCommentInput {
@@ -29,31 +29,31 @@ input CreateUserInput {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): UserObject!
-  deleteUser(_id: ID!): UserObject!
-  updateUser(_id: ID!, data: UpdateUserInput!): UserObject!
-  createPost(data: CreatePostInput!): PostObject!
-  deletePost(_id: ID!): PostObject!
-  updatePost(_id: ID!, data: UpdatePostInput!): PostObject!
-  createComment(data: CreateCommentInput!): CommentObject!
-  deleteComment(_id: ID!): CommentObject!
-  updateComment(_id: ID!, data: UpdateCommentInput!): CommentObject!
+  createUser(data: CreateUserInput!): User!
+  deleteUser(_id: ID!): User!
+  updateUser(_id: ID!, data: UpdateUserInput!): User!
+  createPost(data: CreatePostInput!): Post!
+  deletePost(_id: ID!): Post!
+  updatePost(_id: ID!, data: UpdatePostInput!): Post!
+  createComment(data: CreateCommentInput!): Comment!
+  deleteComment(_id: ID!): Comment!
+  updateComment(_id: ID!, data: UpdateCommentInput!): Comment!
 }
 
-type PostObject {
+type Post {
   _id: ID!
   title: String!
   body: String!
   published: Boolean!
-  user: UserObject!
-  comments: [CommentObject]!
+  user: User!
+  comments: [Comment]!
 }
 
 type Query {
-  getUser(_id: ID!): UserObject
-  getUsers(query: String): [UserObject]!
-  getPosts(query: String): [PostObject]!
-  getComments(query: String): [CommentObject]!
+  getUser(_id: ID!): User
+  getUsers(query: String): [User]!
+  getPosts(query: String): [Post]!
+  getComments(query: String): [Comment]!
 }
 
 input UpdateCommentInput {
@@ -72,11 +72,11 @@ input UpdateUserInput {
   age: Int
 }
 
-type UserObject {
+type User {
   _id: ID!
   name: String!
   email: String!
   age: Int
-  posts: [PostObject]!
-  comments: [CommentObject]!
+  posts: [Post]!
+  comments: [Comment]!
 }

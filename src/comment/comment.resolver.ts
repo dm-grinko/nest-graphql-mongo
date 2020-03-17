@@ -1,10 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent } from "@nestjs/graphql";
 import { CommentService } from "./comment.service";
-import { CreateCommentInput, UpdateCommentInput, CommentObject } from "./comment.model";
+import { CreateCommentInput, UpdateCommentInput, Comment } from "./comment.model";
 import { PostService } from "src/post/post.service";
 import { UserService } from "src/user/user.service";
 
-@Resolver(of => CommentObject)
+@Resolver(of => Comment)
 export class CommentResolver {
   constructor(
     private commentService: CommentService,
@@ -12,7 +12,7 @@ export class CommentResolver {
     private userService: UserService,
   ) {}
 
-  @Query(returns => [CommentObject], { nullable: 'items' })
+  @Query(returns => [Comment], { nullable: 'items' })
   async getComments(@Args({
     name: 'query',
     type: () => String,
@@ -21,17 +21,17 @@ export class CommentResolver {
     return this.commentService.getComments(query);
   }
 
-  @Mutation(returns => CommentObject)
+  @Mutation(returns => Comment)
   async createComment(@Args('data') data: CreateCommentInput) {
     return this.commentService.createComment(data);
   }
 
-  @Mutation(returns => CommentObject)
+  @Mutation(returns => Comment)
   async deleteComment(@Args({ name: '_id', type: () => ID }) _id: number) {
     return this.commentService.deleteComment(_id);
   }
 
-  @Mutation(returns => CommentObject)
+  @Mutation(returns => Comment)
   async updateComment(
     @Args('data') data: UpdateCommentInput,
     @Args({ name: '_id', type: () => ID }) _id: number,
@@ -40,15 +40,13 @@ export class CommentResolver {
   }
 
   @ResolveField()
-  async post(@Parent() comment: CommentObject) {
-    console.log('comment 1', comment);
+  async post(@Parent() comment: Comment) {
     const { _id } = comment;
     return this.postService.getPost(_id);
   }
 
   @ResolveField()
-  async user(@Parent() comment: CommentObject) {
-    console.log('comment 2', comment);
+  async user(@Parent() comment: Comment) {
     const { _id } = comment;
     return this.userService.getUser(_id);
   }

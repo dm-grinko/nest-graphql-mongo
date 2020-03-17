@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
-import { PostInterface, PostObject } from "src/post/post.model";
-import { CommentInterface, CommentObject } from "src/comment/comment.model";
+import { PostInterface, Post } from "src/post/post.model";
+import { CommentInterface, Comment } from "src/comment/comment.model";
 
 export interface UserInterface extends mongoose.Document {
   _id: string;
@@ -29,7 +29,7 @@ export const UserSchema = new mongoose.Schema({
 });
 
 @ObjectType()
-export class UserObject {
+export class User {
   @Field(type => ID)
   readonly _id: string;
 
@@ -42,11 +42,11 @@ export class UserObject {
   @Field(type => Int, { nullable: true })
   readonly age: number;
 
-  @Field(type => [PostObject], { nullable: 'items' })
-  readonly posts: PostObject[];
+  @Field(type => [Post], { nullable: 'items' })
+  readonly posts: Post[];
 
-  @Field(type => [CommentObject], { nullable: 'items' })
-  readonly comments: CommentObject[];
+  @Field(type => [Comment], { nullable: 'items' })
+  readonly comments: Comment[];
 }
 
 @InputType()

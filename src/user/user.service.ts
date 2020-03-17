@@ -14,35 +14,18 @@ export class UserService {
   ) {}
 
   async getUsers(query?: string): Promise<UserInterface[]> {
-    const users = await this.userModel.find()
+    return await this.userModel.find()
       .populate({path: 'posts', model: this.postModel})
       .populate({path: 'comments', model: this.commentModel})
       .exec();
-    return users.map((user: any) => ({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        age: user.age,
-        posts: user.posts,
-        comments: user.comments
-    })) as UserInterface[];
   }
 
   async getUser(id: string): Promise<UserInterface> {
     try {
-      const user = await this.userModel.findById(id)
+      return await this.userModel.findById(id)
         .populate({path: 'posts', model: this.postModel})
         .populate({path: 'comments', model: this.commentModel})
         .exec();
-      console.log('user >>>', user);
-      return {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        age: user.age,
-        posts: user.posts,
-        comments: user.comments
-      } as UserInterface; 
     } catch (e) {
       console.error(e);
     }

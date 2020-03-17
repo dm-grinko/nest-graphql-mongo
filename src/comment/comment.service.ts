@@ -14,27 +14,26 @@ export class CommentService {
   ) {}
 
   async getComments(query?: string): Promise<CommentInterface[]> {
-    const comments = await this.commentModel.find()
+    return await this.commentModel.find()
       .populate({path: 'user', model: this.userModel})
       .populate({path: 'posts', model: this.postModel})
       .exec();
-    return comments.map((comment: any) => ({
-      _id: comment._id,
-      text: comment.text,
-      user: comment.user,
-      post: comment.post,
-    })) as CommentInterface[];
+  }
+
+  async getComment(_id: string): Promise<CommentInterface> {
+    try {
+      return await this.commentModel.findById(_id)
+        .populate({path: 'user', model: this.userModel})
+        .populate({path: 'post', model: this.postModel})
+        .exec();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async createComment(data: CreateCommentInput): Promise<CommentInterface> {
     const createdComments = await new this.commentModel(data);
-    const comment =  await createdComments.save();
-    return {
-      _id: comment._id,
-      text: comment.text,
-      user: comment.user,
-      post: comment.post,
-    } as CommentInterface;
+    return await createdComments.save();
   }
 
   async deleteComment(_id: number) {
