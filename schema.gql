@@ -3,15 +3,15 @@
 # ------------------------------------------------------
 
 type CommentObject {
-  id: ID!
+  _id: ID!
   text: String!
-  author: UserObject!
+  user: UserObject!
   post: PostObject!
 }
 
 input CreateCommentInput {
   text: String!
-  author: ID!
+  user: ID!
   post: ID!
 }
 
@@ -19,7 +19,7 @@ input CreatePostInput {
   title: String!
   body: String!
   published: Boolean!
-  author: ID!
+  user: ID!
 }
 
 input CreateUserInput {
@@ -30,30 +30,30 @@ input CreateUserInput {
 
 type Mutation {
   createUser(data: CreateUserInput!): UserObject!
-  deleteUser(id: ID!): UserObject!
-  updateUser(id: ID!, data: UpdateUserInput!): UserObject!
+  deleteUser(_id: ID!): UserObject!
+  updateUser(_id: ID!, data: UpdateUserInput!): UserObject!
   createPost(data: CreatePostInput!): PostObject!
-  deletePost(id: ID!): PostObject!
-  updatePost(id: ID!, data: UpdatePostInput!): PostObject!
+  deletePost(_id: ID!): PostObject!
+  updatePost(_id: ID!, data: UpdatePostInput!): PostObject!
   createComment(data: CreateCommentInput!): CommentObject!
-  deleteComment(id: ID!): CommentObject!
-  updateComment(id: ID!, data: UpdateCommentInput!): CommentObject!
+  deleteComment(_id: ID!): CommentObject!
+  updateComment(_id: ID!, data: UpdateCommentInput!): CommentObject!
 }
 
 type PostObject {
-  id: ID!
+  _id: ID!
   title: String!
   body: String!
   published: Boolean!
-  author: UserObject!
+  user: UserObject!
   comments: [CommentObject]!
 }
 
 type Query {
-  user(id: ID!): UserObject
-  users(query: String): [UserObject]!
-  posts(query: String): [PostObject]!
-  comments(query: String): [CommentObject]!
+  getUser(_id: ID!): UserObject
+  getUsers(query: String): [UserObject]!
+  getPosts(query: String): [PostObject]!
+  getComments(query: String): [CommentObject]!
 }
 
 input UpdateCommentInput {
@@ -73,7 +73,7 @@ input UpdateUserInput {
 }
 
 type UserObject {
-  id: ID!
+  _id: ID!
   name: String!
   email: String!
   age: Int

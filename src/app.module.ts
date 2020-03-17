@@ -12,7 +12,11 @@ import { CommentModule } from './comment/comment.module';
     UserModule,
     PostModule,
     CommentModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/mugclubs'),
+    MongooseModule.forRoot('mongodb://localhost:27017/mugclubs', {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
     }),

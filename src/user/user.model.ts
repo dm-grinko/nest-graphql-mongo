@@ -1,15 +1,15 @@
 import * as mongoose from 'mongoose';
 import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
-import { IPost, PostObject } from "src/post/post.model";
-import { IComment, CommentObject } from "src/comment/comment.model";
+import { PostInterface, PostObject } from "src/post/post.model";
+import { CommentInterface, CommentObject } from "src/comment/comment.model";
 
-export interface IUser extends mongoose.Document {
-  id: string;
+export interface UserInterface extends mongoose.Document {
+  _id: string;
   name: string;
   email: string;
   age: number;
-  posts: IPost;
-  comments: IComment;
+  posts: PostInterface;
+  comments: CommentInterface;
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -18,12 +18,12 @@ export const UserSchema = new mongoose.Schema({
   age: {type: Number, default: null},
   posts: [{
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'PostModel',
+    ref: 'postModel',
     required: false
   }],
   comments: [{
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'CommentModel',
+    ref: 'commentModel',
     required: false
   }]
 });
@@ -31,44 +31,44 @@ export const UserSchema = new mongoose.Schema({
 @ObjectType()
 export class UserObject {
   @Field(type => ID)
-  id: string;
+  readonly _id: string;
 
   @Field()
-  name: string;
+  readonly name: string;
 
   @Field()
-  email: string;
+  readonly email: string;
 
   @Field(type => Int, { nullable: true })
-  age: number;
+  readonly age: number;
 
   @Field(type => [PostObject], { nullable: 'items' })
-  posts: PostObject[];
+  readonly posts: PostObject[];
 
   @Field(type => [CommentObject], { nullable: 'items' })
-  comments: CommentObject[];
+  readonly comments: CommentObject[];
 }
 
 @InputType()
 export class CreateUserInput {
   @Field(type => String)
-  name: string;
+  readonly name: string;
   
   @Field(type => String)
-  email: string;
+  readonly email: string;
 
   @Field(type => Int, { nullable: true })
-  age: number;
+  readonly age: number;
 }
 
 @InputType()
 export class UpdateUserInput {
   @Field(type => String, { nullable: true })
-  name: string;
+  readonly name: string;
   
   @Field(type => String, { nullable: true })
-  email: string;
+  readonly email: string;
 
   @Field(type => Int, { nullable: true })
-  age: number;
+  readonly age: number;
 }

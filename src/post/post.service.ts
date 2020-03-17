@@ -1,43 +1,57 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IPost, CreatePostInput } from './post.model';
+import { PostInterface, CreatePostInput } from './post.model';
+import { UserInterface } from 'src/user/user.model';
+import { CommentInterface } from 'src/comment/comment.model';
 
 @Injectable()
 export class PostService {
   constructor(
-    @InjectModel('Posts') private readonly PostModel: Model<IPost>
+    @InjectModel('Users') private readonly userModel: Model<UserInterface>,
+    @InjectModel('Posts') private readonly postModel: Model<PostInterface>,
+    @InjectModel('Comments') private readonly commentModel: Model<CommentInterface>,
   ) {}
-  
-  async posts(query?: string): Promise<IPost[]> {
-    const posts = await this.PostModel.find().exec();
-    return posts.map((post: any) => ({
-      id: post._id,
-      title: post.title,
-      body: post.body,
-      published: post.published,
-      author: post.author,
-    })) as IPost[];
+
+  async getPosts(query?: string): Promise<PostInterface[]> {
+    try {
+      return await this.postModel.find()
+        .populate({ path: 'user', model: this.userModel })
+        .populate({ path: 'comments', model: this.commentModel })
+        .exec();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async createPost(data: CreatePostInput): Promise<IPost> {
-    const createdPosts = new this.PostModel(data);
-    const post = await createdPosts.save();
-    console.log('post', post);
-    return {
-      id: post._id,
-      title: post.title,
-      body: post.body,
-      published: post.published,
-      author: post.author,
-    } as IPost;
+  async getPost(_id: string): Promise<PostInterface> {
+    try {
+      const post = await this.postModel.findById(_id)
+        .populate({ path: 'user', model: this.userModel })
+        .populate({ path: 'comments', model: this.commentModel })
+        .exec();
+      return {
+        _id: post._id,
+        title: post.title,
+        body: post.body,
+        published: post.published,
+        user: post.user,
+      } as PostInterface;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  async deletePost(id: number) {
+  async createPost(data: CreatePostInput): Promise<PostInterface> {
+    const createdPost = new this.postModel(data);
+    return await createdPost.save();
+  }
+
+  async deletePost(_id: number) {
     // todo deletePost
   }
 
-  async updatePost(id: number, newData: any) {
+  async updatePost(_id: number, newData: any) {
     // todo updatePost
   }
 }

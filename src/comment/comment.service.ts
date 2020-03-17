@@ -1,40 +1,47 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IComment, CreateCommentInput } from './comment.model';
+import { CommentInterface, CreateCommentInput } from './comment.model';
+import { UserInterface } from 'src/user/user.model';
+import { PostInterface } from 'src/post/post.model';
 
 @Injectable()
 export class CommentService {
   constructor(
-    @InjectModel('Comments') private readonly CommentModel: Model<IComment>,
+    @InjectModel('Users') private readonly userModel: Model<UserInterface>,
+    @InjectModel('Posts') private readonly postModel: Model<PostInterface>,
+    @InjectModel('Comments') private readonly commentModel: Model<CommentInterface>
   ) {}
 
-  async comments(query?: string): Promise<IComment[]> {
-    const comments = await this.CommentModel.find().exec();
+  async getComments(query?: string): Promise<CommentInterface[]> {
+    const comments = await this.commentModel.find()
+      .populate({path: 'user', model: this.userModel})
+      .populate({path: 'posts', model: this.postModel})
+      .exec();
     return comments.map((comment: any) => ({
-      id: comment._id,
+      _id: comment._id,
       text: comment.text,
-      author: comment.author,
+      user: comment.user,
       post: comment.post,
-    })) as IComment[];
+    })) as CommentInterface[];
   }
 
-  async createComment(data: CreateCommentInput): Promise<IComment> {
-    const createdComments = await new this.CommentModel(data);
+  async createComment(data: CreateCommentInput): Promise<CommentInterface> {
+    const createdComments = await new this.commentModel(data);
     const comment =  await createdComments.save();
     return {
-      id: comment._id,
+      _id: comment._id,
       text: comment.text,
-      author: comment.author,
+      user: comment.user,
       post: comment.post,
-    } as IComment;
+    } as CommentInterface;
   }
 
-  async deleteComment(id: number) {
+  async deleteComment(_id: number) {
     // todo deleteComment
   }
 
-  async updateComment(id: number, newData: any) {
+  async updateComment(_id: number, newData: any) {
     // todo updateComment
   }
 }

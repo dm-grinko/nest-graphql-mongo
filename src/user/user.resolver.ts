@@ -1,28 +1,32 @@
-import { Resolver, Query, Mutation, Args, Int, ID } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent } from "@nestjs/graphql";
 import { UserService } from "./user.service";
 import { UserObject, CreateUserInput, UpdateUserInput } from "./user.model";
+import { CommentService } from "src/comment/comment.service";
+import { PostService } from "src/post/post.service";
 
-@Resolver('Users')
+@Resolver(of => UserObject)
 export class UserResolver {
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private commentService: CommentService,
+    private postService: PostService,
   ) {}
 
   @Query(returns => UserObject, { nullable: true })
-  async user(@Args({
-    name: 'id',
+  async getUser(@Args({
+    name: '_id',
     type: () => ID
-  }) id: string) {
-    return this.userService.user(id);
+  }) _id: string) {
+    return this.userService.getUser(_id);
   }
 
   @Query(returns => [UserObject], { nullable: 'items' })
-  async users(@Args({
+  async getUsers(@Args({
     name: 'query',
     type: () => String,
     nullable: true
   }) query?: string) {
-    return this.userService.users(query);
+    return this.userService.getUsers(query);
   }
 
   @Mutation(returns => UserObject)
@@ -31,16 +35,30 @@ export class UserResolver {
   }
 
   @Mutation(returns => UserObject)
-  async deleteUser(@Args({ name: 'id', type: () => ID }) id: number) {
-    return this.userService.deleteUser(id);
+  async deleteUser(@Args({ name: '_id', type: () => ID }) _id: number) {
+    return this.userService.deleteUser(_id);
   }
 
   @Mutation(returns => UserObject)
   async updateUser(
     @Args('data') newData: UpdateUserInput,
-    @Args({ name: 'id', type: () => ID }) id: number,
+    @Args({ name: '_id', type: () => ID }) _id: number,
   ) {
-    return this.userService.updateUser(id, newData);
+    return this.userService.updateUser(_id, newData);
+  }
+
+  @ResolveField()
+  async posts(@Parent() user: UserObject) {
+    console.log('user 1', user);
+    const { _id } = user;
+    return this.postService.getPosts(_id);
+  }
+
+  @ResolveField()
+  async comments(@Parent() user: UserObject) {
+    console.log('user 2', user);
+    const { _id } = user;
+    return this.commentService.getComments(_id);
   }
 }
 

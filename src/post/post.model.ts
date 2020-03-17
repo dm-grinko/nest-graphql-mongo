@@ -1,29 +1,29 @@
 import * as mongoose from 'mongoose';
 import { ObjectType, InputType, Field, ID } from '@nestjs/graphql';
-import { IComment, CommentObject } from "src/comment/comment.model";
-import { IUser, UserObject } from "src/user/user.model";
+import { CommentInterface, CommentObject } from "src/comment/comment.model";
+import { UserInterface, UserObject } from "src/user/user.model";
 
-export interface IPost extends mongoose.Document {
-  id: string;
+export interface PostInterface extends mongoose.Document {
+  _id: string;
   title: string;
   body: string;
   published: boolean;
-  author: IUser;
-  comments: IComment;
+  user: UserInterface;
+  comments: CommentInterface;
 }
 
 export const PostSchema = new mongoose.Schema({
   title: {type: String, required: true},
   body: {type: String, required: true},
   published: {type: Boolean, required: true},
-  author: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserModel',
+    ref: 'userModel',
     required: true
   },
   comments: [{
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'CommentModel',
+    ref: 'commentModel',
     required: false
   }]
 });
@@ -31,47 +31,47 @@ export const PostSchema = new mongoose.Schema({
 @ObjectType()
 export class PostObject {
   @Field(type => ID)
-  id: string;
+  readonly _id: string;
 
   @Field()
-  title: string;
+  readonly title: string;
 
   @Field()
-  body: string;
+  readonly body: string;
 
   @Field()
-  published: boolean;
+  readonly published: boolean;
 
   @Field(type => UserObject)
-  author: UserObject;
+  readonly user: UserObject;
 
   @Field(type => [CommentObject], { nullable: 'items' })
-  comments: CommentObject[];
+  readonly comments: CommentObject[];
 }
 
 @InputType()
 export class CreatePostInput {
   @Field()
-  title: string;
+  readonly title: string;
 
   @Field()
-  body: string;
+  readonly body: string;
 
   @Field()
-  published: boolean;
+  readonly published: boolean;
 
   @Field(type => ID)
-  author: string;
+  readonly user: string;
 }
 
 @InputType()
 export class UpdatePostInput {
   @Field(type => String, { nullable: true })
-  title: string;
+  readonly title: string;
 
   @Field(type => String, { nullable: true })
-  body: string;
+  readonly body: string;
 
   @Field(type => Boolean, { nullable: true })
-  published: boolean;
+  readonly published: boolean;
 }

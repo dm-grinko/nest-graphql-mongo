@@ -1,25 +1,25 @@
 import * as mongoose from 'mongoose';
 import { ObjectType, InputType, Field, ID } from '@nestjs/graphql';
-import { IUser, UserObject } from "src/user/user.model";
-import { IPost, PostObject } from "src/post/post.model";
+import { UserInterface, UserObject } from "src/user/user.model";
+import { PostInterface, PostObject } from "src/post/post.model";
 
-export interface IComment extends mongoose.Document {
-  id: string;
+export interface CommentInterface extends mongoose.Document {
+  _id: string;
   text: string;
-  author: IUser;
-  post: IPost;
+  user: UserInterface;
+  post: PostInterface;
 }
 
 export const CommentSchema = new mongoose.Schema({
   text: {type: String, required: true},
-  author: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'PostModel',
+    ref: 'postModel',
     required: true
   },
   post: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'PostModel',
+    ref: 'postModel',
     required: true
   }
 });
@@ -27,33 +27,33 @@ export const CommentSchema = new mongoose.Schema({
 @ObjectType()
 export class CommentObject {
   @Field(type => ID)
-  id: string;
+  readonly _id: string;
 
   @Field()
-  text: string;
+  readonly text: string;
   
   @Field(type => UserObject)
-  author: UserObject;
+  readonly user: UserObject;
 
   @Field(type => PostObject)
-  post: PostObject;
+  readonly post: PostObject;
 }
 
 @InputType()
 export class CreateCommentInput {
   @Field()
-  text: string;
+  readonly text: string;
 
   @Field(type => ID)
-  author: string;
+  readonly user: string;
 
   @Field(type => ID)
-  post: string;
+  readonly post: string;
 }
 
 @InputType()
 export class UpdateCommentInput {
   @Field(type => String, { nullable: true })
-  text: string;
+  readonly text: string;
 }
 

@@ -1,21 +1,25 @@
-import { Resolver, Query, Mutation, Args, Int, ID } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, ID, ResolveField, Parent, ResolveProperty } from "@nestjs/graphql";
 import { PostService } from "./post.service";
-import { PostObject, CreatePostInput, UpdatePostInput } from "./post.model";
+import { PostObject, CreatePostInput, UpdatePostInput, PostInterface } from "./post.model";
+import { UserService } from "src/user/user.service";
+import { CommentService } from "src/comment/comment.service";
 
 
-@Resolver('Posts')
+@Resolver(of => PostObject)
 export class PostResolver {
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private userService: UserService,
+    private commentService: CommentService,
   ) {}
 
   @Query(returns => [PostObject], { nullable: 'items' })
-  async posts(@Args({
+  async getPosts(@Args({
     name: 'query',
     type: () => String,
     nullable: true
   }) query: string) {
-    return this.postService.posts(query);
+    return this.postService.getPosts(query);
   }
 
   @Mutation(returns => PostObject)
@@ -24,15 +28,29 @@ export class PostResolver {
   }
 
   @Mutation(returns => PostObject)
-  async deletePost(@Args({ name: 'id', type: () => ID }) id: number) {
-    return this.postService.deletePost(id);
+  async deletePost(@Args({ name: '_id', type: () => ID }) _id: number) {
+    return this.postService.deletePost(_id);
   }
 
   @Mutation(returns => PostObject)
   async updatePost(
     @Args('data') newData: UpdatePostInput,
-    @Args({ name: 'id', type: () => ID }) id: number
+    @Args({ name: '_id', type: () => ID }) _id: number
   ) {
-    return this.postService.updatePost(id, newData);
+    return this.postService.updatePost(_id, newData);
+  }
+
+  @ResolveField()
+  async user(@Parent() post: PostObject) {
+    const id = post.user._id;
+    console.log('user id:', id);
+    return this.userService.getUser(id);
+  }
+
+  @ResolveField()
+  async comments(@Parent() post: PostObject) {
+    console.log('post 2', post);
+    const { _id } = post;
+    return this.commentService.getComments(_id);
   }
 }
