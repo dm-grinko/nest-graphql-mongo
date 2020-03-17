@@ -1,16 +1,8 @@
-import { Document } from 'mongoose';
-import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
-import { PostInterface, Post } from "src/post/post.model";
-import { CommentInterface, Comment } from "src/comment/comment.model";
 
-export interface UserInterface extends Document {
-  _id: string;
-  name: string;
-  email: string;
-  age: number;
-  posts: PostInterface;
-  comments: CommentInterface;
-}
+import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
+import { Post } from "src/post/models";
+import { Comment } from "src/comment/models";
+
 
 @ObjectType()
 export class User {

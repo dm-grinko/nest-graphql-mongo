@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { PostResolver } from './post.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostService } from './post.service';
-import { PostSchema } from './post.schema';
-import { UserSchema } from 'src/user/user.schema';
-import { CommentSchema } from 'src/comment/comment.schema';
+import { PostSchema } from './models';
+import { UserSchema } from 'src/user/models';
+import { CommentSchema } from 'src/comment/models';
 import { UserService } from 'src/user/user.service';
 import { CommentService } from 'src/comment/comment.service';
 

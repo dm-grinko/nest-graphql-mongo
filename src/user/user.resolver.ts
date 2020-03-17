@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent } from "@nestjs/graphql";
 import { UserService } from "./user.service";
-import { User, CreateUserInput, UpdateUserInput } from "./user.model";
+import { User, CreateUserInput, UpdateUserInput } from "./models";
 import { CommentService } from "src/comment/comment.service";
 import { PostService } from "src/post/post.service";
 
