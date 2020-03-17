@@ -13,6 +13,14 @@ export class PostResolver {
     private commentService: CommentService,
   ) {}
 
+  @Query(returns => Post, { nullable: true })
+  async getPost(@Args({
+    name: '_id',
+    type: () => ID
+  }) _id: string) {
+    return this.postService.getPost(_id);
+  }
+
   @Query(returns => [Post], { nullable: 'items' })
   async getPosts(@Args({
     name: 'query',

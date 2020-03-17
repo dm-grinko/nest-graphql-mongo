@@ -52,7 +52,9 @@ type Post {
 type Query {
   getUser(_id: ID!): User
   getUsers(query: String): [User]!
+  getPost(_id: ID!): Post
   getPosts(query: String): [Post]!
+  getComment(_id: ID!): Comment
   getComments(query: String): [Comment]!
 }
 

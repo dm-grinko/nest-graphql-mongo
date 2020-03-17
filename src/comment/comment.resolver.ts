@@ -12,6 +12,15 @@ export class CommentResolver {
     private userService: UserService,
   ) {}
 
+
+  @Query(returns => Comment, { nullable: true })
+  async getComment(@Args({
+    name: '_id',
+    type: () => ID
+  }) _id: string) {
+    return this.commentService.getComment(_id);
+  }
+
   @Query(returns => [Comment], { nullable: 'items' })
   async getComments(@Args({
     name: 'query',

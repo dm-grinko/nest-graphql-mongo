@@ -6,8 +6,8 @@
  - get all posts :white_check_mark:
  - get all comments :white_check_mark:
  - get user by id :white_check_mark:
- - get post by id :x:
- - get comment by id :x:
+ - get post by id :white_check_mark:
+ - get comment by id :white_check_mark:
  - search user :x:
  - search post :x:
  - search comment :x:
