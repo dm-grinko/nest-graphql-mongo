@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CommentResolver } from './comment.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommentSchema } from './comment.model';
-import { CommentService } from './comment.service';
-import { UserSchema } from 'src/user/user.model';
-import { PostSchema } from 'src/post/post.model';
+import { CommentResolver } from './comment.resolver';
+import { CommentSchema } from './comment.schema';
+import { UserSchema } from 'src/user/user.schema';
+import { PostSchema } from 'src/post/post.schema';
 import { PostService } from 'src/post/post.service';
 import { UserService } from 'src/user/user.service';
+import { CommentService } from './comment.service';
 
 @Module({
     imports:[

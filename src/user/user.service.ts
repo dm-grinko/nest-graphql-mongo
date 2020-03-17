@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserInterface, CreateUserInput, UserSchema, UpdateUserInput } from './user.model';
+import { UserInterface, CreateUserInput, UpdateUserInput } from './user.model';
 import { PostInterface } from 'src/post/post.model';
 import { CommentInterface } from 'src/comment/comment.model';
 

@@ -1,9 +1,9 @@
-import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
 import { PostInterface, Post } from "src/post/post.model";
 import { CommentInterface, Comment } from "src/comment/comment.model";
 
-export interface UserInterface extends mongoose.Document {
+export interface UserInterface extends Document {
   _id: string;
   name: string;
   email: string;
@@ -11,22 +11,6 @@ export interface UserInterface extends mongoose.Document {
   posts: PostInterface;
   comments: CommentInterface;
 }
-
-export const UserSchema = new mongoose.Schema({
-  name: {type: String, required: true},
-  email: {type: String, required: true, unique: true},
-  age: {type: Number, default: null},
-  posts: [{
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'postModel',
-    required: false
-  }],
-  comments: [{
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'commentModel',
-    required: false
-  }]
-});
 
 @ObjectType()
 export class User {
