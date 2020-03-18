@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
-import { UserInterface } from 'src/user/models';
-import { CommentInterface } from 'src/comment/models';
+import { UserInterface } from '../../user/models';
+import { CommentInterface } from '../../comment/models';
 
 export interface PostInterface extends Document {
   _id: string;

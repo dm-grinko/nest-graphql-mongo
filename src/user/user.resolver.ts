@@ -1,8 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent } from "@nestjs/graphql";
+import { Inject } from "@nestjs/common";
+import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent, Subscription } from "@nestjs/graphql";
 import { UserService } from "./user.service";
 import { User, CreateUserInput, UpdateUserInput } from "./models";
-import { CommentService } from "src/comment/comment.service";
-import { PostService } from "src/post/post.service";
+import { CommentService } from "../comment/comment.service";
+import { PostService } from "../post/post.service";
+import { PubSub } from 'apollo-server-express';
+import { PUB_SUB } from "../shared/subscriptions.provider";
+import { Post } from "src/post/models";
+import { Comment } from "src/comment/models";
 
 @Resolver(of => User)
 export class UserResolver {
@@ -10,6 +15,7 @@ export class UserResolver {
     private userService: UserService,
     private commentService: CommentService,
     private postService: PostService,
+    @Inject(PUB_SUB) private pubSub: PubSub
   ) {}
 
   @Query(returns => User, { nullable: true })
@@ -52,6 +58,20 @@ export class UserResolver {
     const { _id } = user;
     return this.commentService.getComments(_id);
   }
+
+  @Subscription(returns => Comment, {
+    resolve: value => value,
+  })
+  public comment() {
+      return this.pubSub.asyncIterator('comment');
+  }
+
+  // @Subscription(returns => Post, {
+  //   resolve: value => value,
+  // })
+  // public post() {
+  //     return this.pubSub.asyncIterator('post');
+  // }
 }
 
 

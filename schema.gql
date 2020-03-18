@@ -58,6 +58,10 @@ type Query {
   getComments(query: String): [Comment]!
 }
 
+type Subscription {
+  comment: Comment!
+}
+
 input UpdateCommentInput {
   text: String
 }

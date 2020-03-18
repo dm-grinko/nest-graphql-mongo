@@ -3,13 +3,15 @@ import { PostResolver } from './post.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostService } from './post.service';
 import { PostSchema } from './models';
-import { UserSchema } from 'src/user/models';
-import { CommentSchema } from 'src/comment/models';
-import { UserService } from 'src/user/user.service';
-import { CommentService } from 'src/comment/comment.service';
+import { UserSchema } from '../user/models';
+import { CommentSchema } from '../comment/models';
+import { UserService } from '../user/user.service';
+import { CommentService } from '../comment/comment.service';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
     imports:[
+        SharedModule,
         MongooseModule.forFeature([
             { name: 'Users', schema: UserSchema },
             { name: 'Posts', schema: PostSchema },

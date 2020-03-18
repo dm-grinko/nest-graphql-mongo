@@ -1,16 +1,15 @@
-import { Resolver, Query, Mutation, Args, ID, ResolveField, Parent, ResolveProperty } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, ID, ResolveField, Parent } from "@nestjs/graphql";
 import { PostService } from "./post.service";
 import { Post, CreatePostInput, UpdatePostInput } from "./models";
-import { UserService } from "src/user/user.service";
-import { CommentService } from "src/comment/comment.service";
-
+import { UserService } from "../user/user.service";
+import { CommentService } from "../comment/comment.service";
 
 @Resolver(of => Post)
 export class PostResolver {
   constructor(
     private postService: PostService,
     private userService: UserService,
-    private commentService: CommentService,
+    private commentService: CommentService
   ) {}
 
   @Query(returns => Post, { nullable: true })

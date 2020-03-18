@@ -1,7 +1,7 @@
 
 import { ObjectType, InputType, Field, Int, ID } from '@nestjs/graphql';
-import { Post } from "src/post/models";
-import { Comment } from "src/comment/models";
+import { Post } from "../../post/models";
+import { Comment } from "../../comment/models";
 
 
 @ObjectType()

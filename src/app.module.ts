@@ -23,6 +23,8 @@ import config from './environments/environment';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService
+  ],
 })
 export class AppModule {}
