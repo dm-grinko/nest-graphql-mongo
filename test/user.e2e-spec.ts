@@ -1,46 +1,40 @@
 import { INestApplication } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { Test, TestingModule } from '@nestjs/testing';
-import {
-  ApolloServerTestClient,
-  createTestClient,
-} from 'apollo-server-testing';
-import gql from 'graphql-tag';
-import { UserModule } from '../src/user/user.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Test } from '@nestjs/testing';
+import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import { ApolloServerTestClient } from 'apollo-server-testing';
+import { AppModule } from '../src/app.module';
+import fetch from 'node-fetch';
 import config from '../src/environments/environment';
 
 describe('User', () => {
   let app: INestApplication;
   let apolloClient: ApolloServerTestClient;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule, MongooseModule.forRoot(config.mongoURI)],
+  beforeAll(async () => {
+    const testingModule = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-
-    const module: GraphQLModule = moduleFixture.get<GraphQLModule>(
-      GraphQLModule,
-    );
-    apolloClient = createTestClient((module as any).apolloServer);
+    apolloClient = new ApolloClient({
+      uri: `http://127.0.0.1:${config.port}/graphql`,
+      fetch: fetch as any,
+      cache: new InMemoryCache({
+        addTypename: false,
+      }),
+    });
+    app = testingModule.createNestApplication();
+    await app.listen(config.port + 1);
   });
 
   it('should get users', async () => {
     const { query } = apolloClient;
     const result: any = await query({
-      query: gql`
-        query {
-          getUsers {
-            _id
-            name
-          }
+      query: gql`query {
+        getUsers {
+          _id
         }
-      `,
+      }`,
       variables: {},
     });
-    console.log(result);
+    console.log(result.data.getUsers[0]);
   });
 });

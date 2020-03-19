@@ -1,13 +1,12 @@
 import { Inject } from "@nestjs/common";
-import { Resolver, Query, Mutation, Args, Int, ID, ResolveField, Parent, Subscription } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, ID, ResolveField, Parent, Subscription } from "@nestjs/graphql";
 import { UserService } from "./user.service";
 import { User, CreateUserInput, UpdateUserInput } from "./models";
 import { CommentService } from "../comment/comment.service";
 import { PostService } from "../post/post.service";
 import { PubSub } from 'apollo-server-express';
 import { PUB_SUB } from "../shared/subscriptions.provider";
-import { Post } from "src/post/models";
-import { Comment } from "src/comment/models";
+import { Comment } from "../comment/models";
 
 @Resolver(of => User)
 export class UserResolver {

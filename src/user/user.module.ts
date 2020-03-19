@@ -7,7 +7,7 @@ import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { CommentService } from '../comment/comment.service';
 import { PostService } from '../post/post.service';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
     imports:[

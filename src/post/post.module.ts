@@ -7,7 +7,7 @@ import { UserSchema } from '../user/models';
 import { CommentSchema } from '../comment/models';
 import { UserService } from '../user/user.service';
 import { CommentService } from '../comment/comment.service';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
     imports:[
