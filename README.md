@@ -1,6 +1,6 @@
 ## NestJS, GraphQL, MongoDB App
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-
+[![GitHub version](https://badge.fury.io/gh/Naereen%2FStrapDown.js.svg)](https://github.com/dm-grinko/nest-graphql-mongo)
 ### todo:
 - createUser :white_check_mark:
 - createPost :white_check_mark:
